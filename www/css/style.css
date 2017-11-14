@@ -1,0 +1,40 @@
+/* Empty. Add your own CSS if you like */
+.scroll {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 50px);
+    overflow-x: hidden;
+}
+
+.Tableau {
+    line-height: 0;
+    border-spacing: 0;
+}
+
+.Tableau img {
+    display: block;
+}
+
+.Tableau td {
+    padding: 0
+}
+
+.flag {
+    position: absolute;
+}
+
+img {
+    user-select: none;
+}
+
+.winlost {
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    transition: 1s;
+    z-index: 1;
+}
