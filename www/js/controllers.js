@@ -3,10 +3,10 @@ angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($scope, $stateParams) {
     })
 
-    .controller('MinesweeperCtrl', function ($scope, $window, Params) {
+    .controller('colorsweeperCtrl', function ($scope, $window, Params) {
         // $scope.params= params.getParams();
-        $scope.TableauWidth = 5;
-        $scope.TableauHeight = 5;
+        $scope.TableauWidth = 9;
+        $scope.TableauHeight = 9;
         var Casenb = $scope.TableauHeight * $scope.TableauWidth;
         $scope.mineNumber = parseInt(Casenb * 0.15);
 
@@ -219,7 +219,7 @@ angular.module('starter.controllers', [])
             }
         }
 
-        $scope.loadData = function () {
+        $scope.rejouer = function () {
             $window.location.reload();
         };
 
@@ -235,7 +235,7 @@ angular.module('starter.controllers', [])
                     if (!Case.drapeau) {
                         Case.Couvert = false;
                         if (Case.content === "mine") {
-                            $scope.hasLostMessageVisible = true;
+                            $scope.messagePerdu = true;
                         } else {
                             if (gagne($scope.Tableau)) {
                                 $scope.messageGagne = true;
