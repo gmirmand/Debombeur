@@ -9,7 +9,7 @@
             <table class="Tableau" onContextMenu="return false;">
                 <tr ng-repeat="Ligne in Tableau.Lignes" y="{{ $index }}">
                     <td ng-repeat="Case in Ligne.Cases" ng-mousedown="DecouvertCase(Case, $event)" x="{{ $index }}">
-                        <img ng-if="Case.hasFlag" src="img/drapeau.png" class="flag">
+                        <img ng-if="Case.drapeau" src="img/drapeau.png" class="drapeau">
                         <img ng-if="Case.Couvert" src="img/couvert.png">
                         <img ng-if="!Case.Couvert  && Case.content == 'vide'" src="img/vide.png">
                         <img ng-if="!Case.Couvert  && Case.content == 'mine'" src="img/mine.png">

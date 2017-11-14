@@ -29,7 +29,7 @@ angular.module('starter.controllers', [])
                 for (var j = 0; j < $scope.TableauWidth; j++) {
                     var Case = {};
                     Case.Couvert = true;
-                    Case.flag = false;
+                    Case.drapeau = false;
                     Case.content = "vide"; // new
                     Ligne.Cases.push(Case);
                 }
@@ -141,13 +141,13 @@ angular.module('starter.controllers', [])
         //Check if case is vide and check Case around
         function CaseCheckvide(Tableau, column, Ligne) {
             var Case = getCase(Tableau, Ligne, column);
-            if (!Case.hasFlag) {
+            if (!Case.drapeau) {
                 Case.Couvert = false;
-                Case.hasFlag = false;
+                Case.drapeau = false;
                 if (Ligne > 0) {
                     if (column > 0) {
                         Case = getCase(Tableau, Ligne - 1, column - 1);
-                        if (!Case.hasFlag) {
+                        if (!Case.drapeau) {
                             if (Case.content === 'vide' && Case.Couvert) {
                                 CaseCheckvide(Tableau, column - 1, Ligne - 1);
                             }
@@ -155,7 +155,7 @@ angular.module('starter.controllers', [])
                         }
                     }
                     Case = getCase(Tableau, Ligne - 1, column);
-                    if (!Case.hasFlag) {
+                    if (!Case.drapeau) {
                         if (Case.content === 'vide' && Case.Couvert) {
                             CaseCheckvide(Tableau, column, Ligne - 1);
                         }
@@ -163,7 +163,7 @@ angular.module('starter.controllers', [])
                     }
                     if (column < ($scope.TableauWidth - 1)) {
                         Case = getCase(Tableau, Ligne - 1, column + 1);
-                        if (!Case.hasFlag) {
+                        if (!Case.drapeau) {
                             if (Case.content === 'vide' && Case.Couvert) {
                                 CaseCheckvide(Tableau, column + 1, Ligne - 1);
                             }
@@ -173,7 +173,7 @@ angular.module('starter.controllers', [])
                 }
                 if (column > 0) {
                     Case = getCase(Tableau, Ligne, column - 1);
-                    if (!Case.hasFlag) {
+                    if (!Case.drapeau) {
                         if (Case.content === 'vide' && Case.Couvert) {
                             CaseCheckvide(Tableau, column - 1, Ligne);
                         }
@@ -182,7 +182,7 @@ angular.module('starter.controllers', [])
                 }
                 if (column < ($scope.TableauWidth - 1)) {
                     Case = getCase(Tableau, Ligne, column + 1);
-                    if (!Case.hasFlag) {
+                    if (!Case.drapeau) {
                         if (Case.content === 'vide' && Case.Couvert) {
                             CaseCheckvide(Tableau, column + 1, Ligne);
                         }
@@ -192,7 +192,7 @@ angular.module('starter.controllers', [])
                 if (Ligne < ($scope.TableauHeight - 1)) {
                     if (column > 0) {
                         Case = getCase(Tableau, Ligne + 1, column - 1);
-                        if (!Case.hasFlag) {
+                        if (!Case.drapeau) {
                             if (Case.content === 'vide' && Case.Couvert) {
                                 CaseCheckvide(Tableau, column - 1, Ligne + 1);
                             }
@@ -200,7 +200,7 @@ angular.module('starter.controllers', [])
                         }
                     }
                     Case = getCase(Tableau, Ligne + 1, column);
-                    if (!Case.hasFlag) {
+                    if (!Case.drapeau) {
                         if (Case.content === 'vide' && Case.Couvert) {
                             CaseCheckvide(Tableau, column, Ligne + 1);
                         }
@@ -208,7 +208,7 @@ angular.module('starter.controllers', [])
                     }
                     if (column < ($scope.TableauWidth - 1)) {
                         Case = getCase(Tableau, Ligne + 1, column + 1);
-                        if (!Case.hasFlag) {
+                        if (!Case.drapeau) {
                             if (Case.content === 'vide' && Case.Couvert) {
                                 CaseCheckvide(Tableau, column + 1, Ligne + 1);
                             }
@@ -230,9 +230,9 @@ angular.module('starter.controllers', [])
                 case 1:
                     var x = parseInt($event.target.parentElement.getAttribute('x'));
                     var y = parseInt($event.target.parentElement.parentElement.getAttribute('y'));
-                    if (Case.content === 'vide' && Case.Couvert && !Case.hasFlag)
+                    if (Case.content === 'vide' && Case.Couvert && !Case.drapeau)
                         CaseCheckvide($scope.Tableau, x, y);
-                    if (!Case.hasFlag) {
+                    if (!Case.drapeau) {
                         Case.Couvert = false;
                         if (Case.content === "mine") {
                             $scope.hasLostMessageVisible = true;
@@ -249,10 +249,10 @@ angular.module('starter.controllers', [])
                 //right click
                 case 3:
                     if (Case.Couvert) {
-                        if (Case.hasFlag)
-                            Case.hasFlag = false;
+                        if (Case.drapeau)
+                            Case.drapeau = false;
                         else
-                            Case.hasFlag = true;
+                            Case.drapeau = true;
                     }
                     break;
                 default:
