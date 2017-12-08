@@ -1,7 +1,29 @@
 <ion-view view-title="Parameters">
-    <ion-content>
-
-        {{params.width}}
+    <ion-content class="params">
+        <div>
+            <h2>Choisissez la taille de la grille</h2>
+            <form ng-submit="submit()">
+                <input min="5" max="99" type="number" ng-value="TableauWidth" name='width' ng-model="params.width"/>
+                <br>
+                <input min="5" max="99" type="number" ng-value="TableauHeight" name="height" ng-model="params.height"/>
+                <br>
+                <h2>Difficulté :</h2>
+                <label for="dif1">Simple</label>
+                <input ng-checked="difficulte == 1" id="dif1" type="radio" ng-value="1" name='difficulte'
+                       ng-model="params.difficulte"/>
+                <label for="dif2">Moyen</label>
+                <input ng-checked="difficulte == 2" id="dif2" type="radio" ng-value="2" name='difficulte'
+                       ng-model="params.difficulte"/>
+                <label for="dif3">Difficile</label>
+                <input ng-checked="difficulte == 3" id="dif3" type="radio" ng-value="3" name='difficulte'
+                       ng-model="params.difficulte"/>
+                <br>
+                <input type="submit" value="Enregistrer"/>
+                <p>{{params | json }}</p>
+            </form>
+        </div>
     </ion-content>
 </ion-view>
+
+
 

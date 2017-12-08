@@ -6,9 +6,11 @@
                 <h3 ng-if="messagePerdu">Perdu...</h3>
                 <button ng-click="rejouer()">Rejouer ?</button>
             </div>
+            <div class="chronometre"></div>
             <table class="Tableau" onContextMenu="return false;">
                 <tr ng-repeat="Ligne in Tableau.Lignes" y="{{ $index }}">
-                    <td ng-repeat="Case in Ligne.Cases" ng-mousedown="DecouvertCase(Case, $event)" x="{{ $index }}">
+                    <td ng-repeat="Case in Ligne.Cases" on-long-press="onLongPress()"
+                        ng-mousedown="DecouvertCase(Case, $event)" x="{{ $index }}">
                         <img ng-if="Case.drapeau" src="img/drapeau.gif" class="drapeau">
                         <img ng-if="Case.Couvert" src="img/couvert.gif">
                         <img ng-if="!Case.Couvert  && Case.content == 'vide'" src="img/vide.gif">

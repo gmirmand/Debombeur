@@ -1,19 +1,27 @@
 angular.module('starter')
     .service('Params', function () {
-        console.log('init service');
         var scope = this;
-        var width = null;
-        var height = null;
-        scope.params = function (widthInit, heightInit) {
-            width = widthInit;
-            height = heightInit;
+        scope.getWidth = function ($scope) {
+            if (!localStorage.getItem("width"))
+                $scope.TableauWidth = 9;
+            else
+                $scope.TableauWidth = localStorage.getItem("width");
+            return $scope.TableauWidth;
         };
-        scope.getParams = function () {
-            var params = {
-                width: width,
-                height: height
-            };
-            console.log(params);
-            return params;
+
+        scope.getHeight = function ($scope) {
+            if (!localStorage.getItem("height"))
+                $scope.TableauHeight = 9;
+            else
+                $scope.TableauHeight = localStorage.getItem("height");
+            return $scope.TableauHeight;
+        };
+
+        scope.getDifficulte = function ($scope) {
+            if (!localStorage.getItem("difficulte"))
+                $scope.difficulte = 2;
+            else
+                $scope.difficulte = localStorage.getItem("difficulte");
+            return $scope.difficulte;
         }
     });

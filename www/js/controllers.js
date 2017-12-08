@@ -3,12 +3,18 @@ angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($scope, $stateParams) {
     })
 
-    .controller('colorsweeperCtrl', function ($scope, $window, Params) {
-        // $scope.params= params.getParams();
-        $scope.TableauWidth = 9;
-        $scope.TableauHeight = 9;
+    .controller('DebombeurCtrl', function ($scope, $window, Params) {
+        //Récupérer les params (localStorage)
+        $scope.TableauHeight = Params.getHeight($scope);
+        $scope.TableauWidth = Params.getWidth($scope);
+        $scope.Difficulte = Params.getDifficulte($scope);
+        var chronometre = [];
+        chronometre.seconde = 0;
+        chronometre.minute = 0;
+
+        // Déterminer la difficulté
         var Casenb = $scope.TableauHeight * $scope.TableauWidth;
-        $scope.mineNumber = parseInt(Casenb * 0.15);
+        $scope.mineNumber = parseInt(Casenb * 0.10) * $scope.difficulte;
 
         $scope.Tableau = creerTableau();
         $scope.DecouvertCase = function (Case) {
@@ -18,7 +24,7 @@ angular.module('starter.controllers', [])
             }
         };
 
-        //Generer le tableau des mines
+        // Generer le tableau des mines
         function creerTableau() {
             var Tableau = {};
             Tableau.Lignes = [];
@@ -35,41 +41,43 @@ angular.module('starter.controllers', [])
                 }
                 Tableau.Lignes.push(Ligne);
             }
-            placeManyRandomMines(Tableau);
-            calculateAllNumbers(Tableau);
+            placerPlusieursMines(Tableau);
+            calculerAllNumeros(Tableau);
             return Tableau;
         }
 
-        //Selec
+        // Récupérer une case
         function getCase(Tableau, Ligne, column) {
             return Tableau.Lignes[Ligne].Cases[column];
         }
 
-        //Place randomly mines
-        function placeRandomMine(Tableau) {
+        // Placer aléatoirement une mine
+        function placerMine(Tableau) {
             var Ligne = Math.round(Math.random() * ($scope.TableauHeight - 1));
             var column = Math.round(Math.random() * ($scope.TableauWidth - 1));
             var Case = getCase(Tableau, Ligne, column);
-            Case.content = "mine";
+            if (Case.content === "mine")
+                placerMine(Tableau);
+            else
+                Case.content = "mine";
         }
 
-        //duplicate placeRamdomMine for get many mines
-        function placeManyRandomMines(Tableau) {
+        // Placer plusieurs mines (via placerMine())
+        function placerPlusieursMines(Tableau) {
             for (var i = 0; i < $scope.mineNumber; i++) {
-                placeRandomMine(Tableau);
+                placerMine(Tableau);
             }
         }
 
-        //calculate Case number
-        function calculateNumber(Tableau, Ligne, column) {
+        // Calculer le numéro d'une case
+        function calculerNumero(Tableau, Ligne, column) {
+            var mineCount = 0;
+            var Case;
             var thisCase = getCase(Tableau, Ligne, column);
+
             if (thisCase.content === "mine") {
                 return;
             }
-
-            var mineCount = 0;
-            var Case;
-
             if (Ligne > 0) {
                 if (column > 0) {
                     Case = getCase(Tableau, Ligne - 1, column - 1);
@@ -116,20 +124,21 @@ angular.module('starter.controllers', [])
             }
         }
 
-        //Duplicate calculateNumber for get number of all Case
-        function calculateAllNumbers(Tableau) {
+        // Calculer le numéro de toutes les cases (via calculerNumero())
+        function calculerAllNumeros(Tableau) {
             for (var y = 0; y < $scope.TableauWidth; y++) {
                 for (var x = 0; x < $scope.TableauHeight; x++) {
-                    calculateNumber(Tableau, x, y);
+                    calculerNumero(Tableau, x, y);
                 }
             }
         }
 
-        // Determine if Have Win
+        // Determiner si le joueur a gagné
         function gagne(Tableau) {
+            var Case;
             for (var y = 0; y < $scope.TableauWidth; y++) {
                 for (var x = 0; x < $scope.TableauHeight; x++) {
-                    var Case = getCase(Tableau, y, x);
+                    Case = getCase(Tableau, y, x);
                     if (Case.Couvert && Case.content !== "mine") {
                         return false;
                     }
@@ -138,7 +147,7 @@ angular.module('starter.controllers', [])
             return true;
         }
 
-        //Check if case is vide and check Case around
+        //Check si la case est vide est exécuter la fonction sur les cases autour qui sont vide et couverte.
         function CaseCheckvide(Tableau, column, Ligne) {
             var Case = getCase(Tableau, Ligne, column);
             if (!Case.drapeau) {
@@ -219,7 +228,30 @@ angular.module('starter.controllers', [])
             }
         }
 
-        $scope.rejouer = function () {
+        $scope.chronometre = setInterval(function () {
+            StartChronometre()
+        }, 1000);
+
+        function StartChronometre() {
+            chronometre.seconde = ("0" + chronometre.seconde).slice(-2);
+            document.querySelector('.chronometre').textContent = chronometre.minute + ":" + chronometre.seconde;
+            chronometre.seconde++;
+            if (chronometre.seconde > 59) {
+                chronometre.seconde = 0;
+                chronometre.minute++;
+            }
+        }
+
+        function addDrapeau(Case) {
+            if (Case.Couvert) {
+                if (Case.drapeau)
+                    Case.drapeau = false;
+                else
+                    Case.drapeau = true;
+            }
+        }
+
+        $scope.rejouer = function ($state) {
             $window.location.reload();
         };
 
@@ -248,27 +280,30 @@ angular.module('starter.controllers', [])
                     break;
                 //right click
                 case 3:
-                    if (Case.Couvert) {
-                        if (Case.drapeau)
-                            Case.drapeau = false;
-                        else
-                            Case.drapeau = true;
-                    }
+                    addDrapeau(Case);
                     break;
                 default:
                     alert("you have a strange mouse!");
                     break;
             }
         };
-
-        if (gagne($scope.Tableau)) {
-            $scope.messageGagne = true;
-            if (gagne($scope.Tableau)) {
-                $scope.messageGagne = true;
-            }
-        }
     })
 
-    .controller('ParamsCtrl', function ($scope, $stateParams, Params) {
-        $scope.params = Params.getParams();
+    .controller('ParamsCtrl', function ($scope, Params, $window) {
+        //Récupérer les params (localStorage)
+        $scope.TableauHeight = Params.getHeight($scope);
+        $scope.TableauWidth = Params.getWidth($scope);
+        $scope.Difficulte = Params.getDifficulte($scope);
+
+        $scope.params = {};
+        $scope.submit = function () {
+            if ($scope.params.width)
+                localStorage.setItem("width", JSON.stringify($scope.params.width));
+            if ($scope.params.height)
+                localStorage.setItem("height", JSON.stringify($scope.params.height));
+            if ($scope.params.difficulte)
+                localStorage.setItem("difficulte", JSON.stringify($scope.params.difficulte).replace(/\"/g, ""));
+            alert("Enregistré !")
+            $window.location.reload();
+        }
     });
