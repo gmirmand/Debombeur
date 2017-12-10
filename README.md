@@ -1,4 +1,4 @@
-LittleGuyJs
+Débombeur
 ===================
 Application Débombeur, remake du jeu Démineur par Gaëtan Mirmand
 
