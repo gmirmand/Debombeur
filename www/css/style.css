@@ -9613,10 +9613,10 @@ a.button {
     margin-top: env(safe-area-inset-top); }
 
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
-  padding-left: calc( constant(safe-area-inset-left) + 5px);
+  padding-left: calc( constant(safe-area-inset-left) + 5px);
   padding-left: calc(env(safe-area-inset-left) + 5px);
-  padding-right: calc( constant(safe-area-inset-right) + 5px);
-  padding-right: calc( env(safe-area-inset-right) + 5px); }
+  padding-right: calc( constant(safe-area-inset-right) + 5px);
+  padding-right: calc( env(safe-area-inset-right) + 5px); }
   .platform-ios.platform-cordova:not(.fullscreen) .bar-header .buttons:last-child {
     right: calc(constant(safe-area-inset-right) + 5px);
     right: calc(env(safe-area-inset-right) + 5px); }
@@ -9872,82 +9872,200 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
-body .pane {
-  background-color: #228B22; }
+body {
+  font-family: Arial, sans-serif;
+  color: white; }
+  body .pane {
+    background-color: black; }
+  body h1, body h2, body h3, body h4 {
+    font-family: Arial, sans-serif;
+    color: white; }
+  body .flagTool {
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    animation: bounce 4s infinite ease;
+    z-index: 999; }
+    body .flagTool:hover {
+      cursor: pointer; }
+    body .flagTool img {
+      position: relative; }
+  body .scroll {
+    /*
+        display: flex;
+        align-items: center;
+        justify-content: center;*/
+    height: calc(100vh - 50px);
+    /* optional: show position indicator in red */ }
+    body .scroll > .container {
+      max-width: 100vw;
+      max-height: 100vh;
+      box-sizing: border-box;
+      padding: 10px 0;
+      overflow: scroll;
+      text-align: center; }
+    body .scroll ::-webkit-scrollbar {
+      width: 0;
+      /* remove scrollbar space */
+      background: transparent;
+      /* optional: just make scrollbar invisible */ }
+    body .scroll ::-webkit-scrollbar-thumb {
+      background: transparent;
+      /* optional: just make scrollbar invisible */ }
+  body .Tableau {
+    line-height: 0;
+    border-spacing: 0;
+    background-color: black;
+    display: inline-block;
+    margin: 0 auto; }
+    body .Tableau td {
+      padding: 0;
+      opacity: 0.7;
+      width: 48px;
+      height: 48px;
+      position: relative; }
+      body .Tableau td:hover {
+        opacity: 1;
+        cursor: pointer; }
+    body .Tableau img {
+      display: block; }
+  body .drapeau {
+    position: absolute; }
+  body img {
+    user-select: none; }
+  body .winlost {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    transition: 1s;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; }
+    body .winlost button {
+      font-family: Arial, sans-serif;
+      background-color: #545454;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      color: white; }
+  body .red {
+    background-color: red !important; }
+  body .case {
+    width: 24px;
+    height: 24px;
+    border: 1px solid black;
+    background-color: #e1e2e3;
+    transition: 1s; }
+  body .params {
+    text-align: center;
+    font-weight: bold; }
+    body .params h2 {
+      width: 100%;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid white;
+      margin-bottom: 20px; }
+    body .params .size, body .params .difficulte {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap; }
+      body .params .size input, body .params .difficulte input {
+        font-family: Arial, sans-serif;
+        text-align: center !important;
+        border: 1px solid black !important;
+        font-size: 22px;
+        flex-grow: 1; }
+      body .params .size :checked + span, body .params .difficulte :checked + span {
+        font-size: 28px !important;
+        padding: 0 !important;
+        opacity: 1 !important;
+        color: #00A651; }
+      body .params .size .simple, body .params .size .moyen, body .params .size .difficile, body .params .difficulte .simple, body .params .difficulte .moyen, body .params .difficulte .difficile {
+        font-family: Arial, sans-serif;
+        font-size: 22px;
+        width: calc(100% / 3);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center; }
+        body .params .size .simple span, body .params .size .moyen span, body .params .size .difficile span, body .params .difficulte .simple span, body .params .difficulte .moyen span, body .params .difficulte .difficile span {
+          font-size: 18px;
+          padding: 3px 0;
+          transition: 0.5s;
+          opacity: 0.7; }
+        body .params .size .simple input, body .params .size .moyen input, body .params .size .difficile input, body .params .difficulte .simple input, body .params .difficulte .moyen input, body .params .difficulte .difficile input {
+          display: none; }
+      body .params .size span, body .params .difficulte span {
+        padding: 0 5px; }
+  body .chronometre {
+    text-align: center;
+    color: #545454;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    font-size: 30px; }
+  body .start {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center; }
+    body .start a {
+      color: black;
+      text-decoration: none;
+      font-size: 48px;
+      display: inline-block;
+      background-color: #545454;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 250px;
+      transform: rotateY(-15deg) rotateX(0);
+      animation: respire 4s infinite ease; }
+  body .params {
+    padding: 30px; }
+    body .params input[type="submit"] {
+      font-family: Arial, sans-serif;
+      background-color: #545454;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      color: white; }
 
-body .scroll {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - 50px);
-  overflow-x: hidden; }
+.popup {
+  color: black; }
+  .popup-title {
+    color: black; }
+  .popup .button {
+    background-color: #00A651; }
+    .popup .button:hover {
+      background-color: #545454; }
 
-body .Tableau {
-  line-height: 0;
-  border-spacing: 0;
-  background-color: black;
-  box-shadow: 0 30px 0 0 #4b3020; }
+@keyframes respire {
+  90% {
+    transform: scale(1.2);
+    background-color: #00A651; } }
 
-body .Tableau img {
-  display: block; }
-
-body .Tableau td {
-  padding: 0;
-  opacity: 0.8;
-  transition: 0.33s; }
-
-body .Tableau td:hover {
-  opacity: 1;
-  cursor: pointer; }
-
-body .drapeau {
-  position: absolute; }
-
-body img {
-  user-select: none; }
-
-body .winlost {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.3);
-  text-align: center;
-  transition: 1s;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; }
-
-body .red {
-  background-color: red !important; }
-
-body .case {
-  width: 24px;
-  height: 24px;
-  border: 1px solid black;
-  background-color: #e1e2e3;
-  transition: 1s; }
-
-body .params {
-  text-align: center;
-  font-weight: bold; }
-  body .params input {
-    margin: 0 auto !important;
-    text-align: center !important;
-    border: 1px solid black !important;
-    width: auto !important; }
-  body .params span {
-    position: relative;
-    left: -7px; }
-
-body .chronometre {
-  text-align: center;
-  color: #144b14;
-  position: absolute;
-  top: 50px;
-  left: 0;
-  width: 100%;
-  font-size: 30px; }
+@keyframes bounce {
+  80% {
+    transform: translateY(0); }
+  85% {
+    transform: translateY(-8px); }
+  88% {
+    transform: translateY(0); }
+  90% {
+    transform: translateY(-4px); }
+  91% {
+    transform: translateY(0); }
+  92% {
+    transform: translateY(-2px); }
+  93% {
+    transform: translateY(0); } }

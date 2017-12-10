@@ -1,25 +1,43 @@
 <ion-view view-title="Parameters">
     <ion-content class="params">
-        <div>
+        <div class="params">
             <h2>Choisissez la taille de la grille</h2>
             <form ng-submit="submit()">
-                <input min="5" max="99" type="number" ng-value="TableauWidth" name='width' ng-model="params.width"/>
-                <br>
-                <input min="5" max="99" type="number" ng-value="TableauHeight" name="height" ng-model="params.height"/>
-                <br>
-                <h2>Difficulté :</h2>
-                <label for="dif1">Simple</label>
-                <input ng-checked="difficulte == 1" id="dif1" type="radio" ng-value="1" name='difficulte'
-                       ng-model="params.difficulte"/>
-                <label for="dif2">Moyen</label>
-                <input ng-checked="difficulte == 2" id="dif2" type="radio" ng-value="2" name='difficulte'
-                       ng-model="params.difficulte"/>
-                <label for="dif3">Difficile</label>
-                <input ng-checked="difficulte == 3" id="dif3" type="radio" ng-value="3" name='difficulte'
-                       ng-model="params.difficulte"/>
+                <div class="size">
+                    <input min="5" max="99" type="number" ng-value="TableauWidth" name='width' ng-model="params.width"/>
+                    <span class="x">X</span>
+                    <input min="5" max="99" type="number" ng-value="TableauHeight" name="height"
+                           ng-model="params.height"/>
+                </div>
+                <div class="difficulte">
+                    <h2>Difficulté :</h2>
+                    <div class="simple">
+                        <label for="dif1">
+                            <input class="dif" ng-checked="difficulte == 1" id="dif1" type="radio" ng-value="1"
+                                   name='difficulte'
+                                   ng-model="params.difficulte"/>
+                            <span>Simple</span>
+                        </label>
+                    </div>
+                    <div class="moyen">
+                        <label for="dif2">
+                            <input class="dif" ng-checked="difficulte == 2" id="dif2" type="radio" ng-value="2"
+                                   name='difficulte'
+                                   ng-model="params.difficulte"/>
+                            <span>Moyen</span>
+                        </label>
+                    </div>
+                    <div class="difficile">
+                        <label for="dif3">
+                            <input class="dif" ng-checked="difficulte == 3" id="dif3" type="radio" ng-value="3"
+                                   name='difficulte'
+                                   ng-model="params.difficulte"/>
+                            <span>Difficile</span>
+                        </label>
+                    </div>
+                </div>
                 <br>
                 <input type="submit" value="Enregistrer"/>
-                <p>{{params | json }}</p>
             </form>
         </div>
     </ion-content>

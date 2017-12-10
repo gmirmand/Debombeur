@@ -1,28 +1,31 @@
 <ion-view view-title="Debombeur {{ TableauWidth }}x{{ TableauHeight }}, {{ mineNumber }} mines">
     <ion-content>
-        <div>
+        <div class="container">
             <div class="winlost" ng-if="messageGagne || messagePerdu">
                 <h3 ng-if="messageGagne">Gagné !</h3>
                 <h3 ng-if="messagePerdu">Perdu...</h3>
                 <button ng-click="rejouer()">Rejouer ?</button>
             </div>
-            <div class="chronometre"></div>
+            <!--<div class="chronometre"></div>-->
+            <div class="flagTool" ng-click="toolDrapeauSwitch()" >
+                <img ng-if="toolDrapeau" src="img/drapeau.png" class="drapeau">
+                <img ng-if="!toolDrapeau" src="img/vide.png" class="drapeau">
+            </div>
             <table class="Tableau" onContextMenu="return false;">
                 <tr ng-repeat="Ligne in Tableau.Lignes" y="{{ $index }}">
-                    <td ng-repeat="Case in Ligne.Cases" on-long-press="onLongPress()"
-                        ng-mousedown="DecouvertCase(Case, $event)" x="{{ $index }}">
-                        <img ng-if="Case.drapeau" src="img/drapeau.gif" class="drapeau">
-                        <img ng-if="Case.Couvert" src="img/couvert.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 'vide'" src="img/vide.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 'mine'" src="img/mine.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 1" src="img/1.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 2" src="img/2.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 3" src="img/3.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 4" src="img/4.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 5" src="img/5.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 6" src="img/6.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 7" src="img/7.gif">
-                        <img ng-if="!Case.Couvert  && Case.content == 8" src="img/8.gif">
+                    <td ng-repeat="Case in Ligne.Cases" ng-mousedown="DecouvertCase(Case, $event)" x="{{ $index }}">
+                        <img ng-if="Case.drapeau" src="img/drapeau.png" class="drapeau">
+                        <img ng-if="Case.Couvert" src="img/couvert.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 'vide'" src="img/vide.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 'mine'" src="img/mine.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 1" src="img/1.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 2" src="img/2.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 3" src="img/3.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 4" src="img/4.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 5" src="img/5.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 6" src="img/6.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 7" src="img/7.png">
+                        <img ng-if="!Case.Couvert  && Case.content == 8" src="img/8.png">
                     </td>
                 </tr>
             </table>

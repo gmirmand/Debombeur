@@ -1,7 +1,25 @@
 {
-  "name": "detrumper",
-  "version": "0.0.1",
-  "description": "An Ionic project",
+  "name": "DeBombeur",
+  "description": "DeBombeur AngularJs Jeu",
+  "version": "1.0.0",
+  "homepage": "https://github.com/gmirmand/debombeur",
+  "author": "Gaëtan Mirmand",
+  "repository": "gmirmand/debombeur",
+  "bugs": {
+    "url": "https://github.com/gmirmand/debombeur/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "bin",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=4"
+  },
+  "keywords": [
+    "debombeur"
+  ],
   "devDependencies": {
     "gulp": "^3.5.6",
     "gulp-clean-css": "^3.7.0",

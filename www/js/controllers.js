@@ -3,11 +3,12 @@ angular.module('starter.controllers', [])
     .controller('AppCtrl', function ($scope, $stateParams) {
     })
 
-    .controller('DebombeurCtrl', function ($scope, $window, Params) {
+    .controller('DebombeurCtrl', function ($scope, $window, Params, $interval) {
         //Récupérer les params (localStorage)
         $scope.TableauHeight = Params.getHeight($scope);
         $scope.TableauWidth = Params.getWidth($scope);
         $scope.Difficulte = Params.getDifficulte($scope);
+        //Chrono not yet use
         var chronometre = [];
         chronometre.seconde = 0;
         chronometre.minute = 0;
@@ -15,7 +16,6 @@ angular.module('starter.controllers', [])
         // Déterminer la difficulté
         var Casenb = $scope.TableauHeight * $scope.TableauWidth;
         $scope.mineNumber = parseInt(Casenb * 0.10) * $scope.difficulte;
-
         $scope.Tableau = creerTableau();
         $scope.DecouvertCase = function (Case) {
             Case.Couvert = false;
@@ -31,7 +31,6 @@ angular.module('starter.controllers', [])
             for (var i = 0; i < $scope.TableauHeight; i++) {
                 var Ligne = {};
                 Ligne.Cases = [];
-
                 for (var j = 0; j < $scope.TableauWidth; j++) {
                     var Case = {};
                     Case.Couvert = true;
@@ -74,7 +73,6 @@ angular.module('starter.controllers', [])
             var mineCount = 0;
             var Case;
             var thisCase = getCase(Tableau, Ligne, column);
-
             if (thisCase.content === "mine") {
                 return;
             }
@@ -228,26 +226,51 @@ angular.module('starter.controllers', [])
             }
         }
 
-        $scope.chronometre = setInterval(function () {
-            StartChronometre()
-        }, 1000);
+        // $scope.ChronoInterval = setInterval(function () {
+        //     StartChronometre();
+        // }, 1000);
 
         function StartChronometre() {
-            chronometre.seconde = ("0" + chronometre.seconde).slice(-2);
-            document.querySelector('.chronometre').textContent = chronometre.minute + ":" + chronometre.seconde;
             chronometre.seconde++;
             if (chronometre.seconde > 59) {
                 chronometre.seconde = 0;
                 chronometre.minute++;
             }
+            chronometre.seconde = ("0" + chronometre.seconde).slice(-2);
+            if (document.querySelector('.chronometre'))
+                document.querySelector('.chronometre').innerHTML = chronometre.minute + ":" + chronometre.seconde;
         }
 
-        function addDrapeau(Case) {
+        // $scope.StopChronometre = function () {
+        //     $window.location.href = '/#/app/debombeur';
+        // };
+
+        //Outil pour ajouter drapeau
+        $scope.toolDrapeauSwitch = function () {
+            if ($scope.toolDrapeau)
+                $scope.toolDrapeau = false;
+            else
+                $scope.toolDrapeau = true;
+        };
+        $scope.toolDrapeau = false;
+
+        $scope.addDrapeau = function (Case) {
+            console.log('drapeau add');
             if (Case.Couvert) {
                 if (Case.drapeau)
                     Case.drapeau = false;
                 else
                     Case.drapeau = true;
+            }
+        };
+
+        function decouvrir() {
+            for (var y = 0; y < $scope.TableauWidth; y++) {
+                for (var x = 0; x < $scope.TableauHeight; x++) {
+                    var Case = getCase($scope.Tableau, x, y);
+                    if (Case.content === 'mine')
+                        Case.Couvert = false;
+                }
             }
         }
 
@@ -260,19 +283,24 @@ angular.module('starter.controllers', [])
             switch ($event.which) {
                 //left click
                 case 1:
-                    var x = parseInt($event.target.parentElement.getAttribute('x'));
-                    var y = parseInt($event.target.parentElement.parentElement.getAttribute('y'));
-                    if (Case.content === 'vide' && Case.Couvert && !Case.drapeau)
-                        CaseCheckvide($scope.Tableau, x, y);
-                    if (!Case.drapeau) {
-                        Case.Couvert = false;
-                        if (Case.content === "mine") {
-                            $scope.messagePerdu = true;
-                        } else {
-                            if (gagne($scope.Tableau)) {
-                                $scope.messageGagne = true;
+                    if (!$scope.toolDrapeau) {
+                        var x = parseInt($event.target.parentElement.getAttribute('x'));
+                        var y = parseInt($event.target.parentElement.parentElement.getAttribute('y'));
+                        if (Case.content === 'vide' && Case.Couvert && !Case.drapeau)
+                            CaseCheckvide($scope.Tableau, x, y);
+                        if (!Case.drapeau) {
+                            Case.Couvert = false;
+                            if (Case.content === "mine") {
+                                $scope.messagePerdu = true;
+                                decouvrir();
+                            } else {
+                                if (gagne($scope.Tableau)) {
+                                    $scope.messageGagne = true;
+                                }
                             }
                         }
+                    } else {
+                        $scope.addDrapeau(Case);
                     }
                     break;
                 //middle
@@ -280,7 +308,7 @@ angular.module('starter.controllers', [])
                     break;
                 //right click
                 case 3:
-                    addDrapeau(Case);
+                    $scope.addDrapeau(Case);
                     break;
                 default:
                     alert("you have a strange mouse!");
@@ -289,11 +317,20 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('ParamsCtrl', function ($scope, Params, $window) {
+    .controller('ParamsCtrl', function ($scope, Params, $window, $ionicPopup) {
         //Récupérer les params (localStorage)
         $scope.TableauHeight = Params.getHeight($scope);
         $scope.TableauWidth = Params.getWidth($scope);
         $scope.Difficulte = Params.getDifficulte($scope);
+        $scope.showPopup = function () {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Paramètres enregistrés !',
+                template: 'Bonne chance pour ta nouvelle partie...'
+            });
+            alertPopup.then(function (res) {
+                $window.location.reload();
+            });
+        };
 
         $scope.params = {};
         $scope.submit = function () {
@@ -303,7 +340,6 @@ angular.module('starter.controllers', [])
                 localStorage.setItem("height", JSON.stringify($scope.params.height));
             if ($scope.params.difficulte)
                 localStorage.setItem("difficulte", JSON.stringify($scope.params.difficulte).replace(/\"/g, ""));
-            alert("Enregistré !")
-            $window.location.reload();
+            $scope.showPopup();
         }
     });

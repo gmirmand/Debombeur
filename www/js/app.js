@@ -35,7 +35,8 @@ angular.module('starter', ['ionic', 'starter.controllers'])
                 url: '/start',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/start.html'
+                        templateUrl: 'templates/start.html',
+                        controller: 'DebombeurCtrl'
                     }
                 }
             })
