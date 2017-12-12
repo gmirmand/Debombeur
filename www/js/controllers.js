@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
             var Case;
             for (var y = 0; y < $scope.TableauWidth; y++) {
                 for (var x = 0; x < $scope.TableauHeight; x++) {
-                    Case = getCase(Tableau, y, x);
+                    Case = getCase(Tableau, x, y);
                     if (Case.Couvert && Case.content !== "mine") {
                         return false;
                     }
@@ -255,7 +255,6 @@ angular.module('starter.controllers', [])
         $scope.toolDrapeau = false;
 
         $scope.addDrapeau = function (Case) {
-            console.log('drapeau add');
             if (Case.Couvert) {
                 if (Case.drapeau)
                     Case.drapeau = false;
